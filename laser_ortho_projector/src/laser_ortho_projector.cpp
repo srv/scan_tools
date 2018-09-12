@@ -165,7 +165,7 @@ void LaserOrthoProjector::scanCallback(const sensor_msgs::LaserScan::ConstPtr& s
     else return;
   }
 
-  if(!use_pose_)
+  if((!use_pose_)&&(!use_imu_))
   {
     // obtain transform between fixed and base frame
     tf::StampedTransform world_to_base_tf;

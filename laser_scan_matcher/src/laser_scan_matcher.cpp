@@ -336,10 +336,16 @@ void LaserScanMatcher::cloudCallback (const PointCloudT::ConstPtr& cloud)
       ROS_WARN("Skipping scan");
       return;
     }
-
     PointCloudToLDP(cloud, prev_ldp_scan_);
+printf("Initializing prev_ldp_scan with size: %d\n\n", prev_ldp_scan_->nrays);
+if(prev_ldp_scan_->nrays > 10){
+  
+
     last_icp_time_ = cloud_header.stamp;
     initialized_ = true;
+}else{
+return;
+}
   }
 
   LDP curr_ldp_scan;
@@ -423,7 +429,7 @@ void LaserScanMatcher::processScan(LDP& curr_ldp_scan, const ros::Time& time)
   input_.first_guess[2] = tf::getYaw(pr_ch_l.getRotation());
 
   // *** scan match - using point to line icp from CSM
-
+//printf("%d -- %d\n", input_.laser_ref->nrays, input_.laser_sens->nrays);
   sm_icp(&input_, &output_);
   tf::Transform corr_ch;
 
@@ -566,6 +572,8 @@ void LaserScanMatcher::PointCloudToLDP(const PointCloudT::ConstPtr& cloud,
     ldp->cluster[i]  = -1;
   }
 
+  ldp->nrays = cloud_f.points.size();
+
   ldp->min_theta = ldp->theta[0];
   ldp->max_theta = ldp->theta[n-1];
 
@@ -607,6 +615,8 @@ void LaserScanMatcher::laserScanToLDP(const sensor_msgs::LaserScan::ConstPtr& sc
 
     ldp->cluster[i]  = -1;
   }
+
+  ldp->nrays = scan_msg->ranges.size();
 
   ldp->min_theta = ldp->theta[0];
   ldp->max_theta = ldp->theta[n-1];
