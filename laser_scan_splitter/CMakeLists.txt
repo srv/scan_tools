@@ -26,15 +26,16 @@ target_link_libraries( laser_scan_splitter ${catkin_LIBRARIES})
 add_dependencies(laser_scan_splitter ${catkin_EXPORTED_TARGETS})
 
 #Create nodelet
-add_library(laser_scan_splitter_nodelet src/laser_scan_splitter_nodelet.cpp)
-target_link_libraries(laser_scan_splitter_nodelet laser_scan_splitter)
+#add_library(laser_scan_splitter_nodelet src/laser_scan_splitter_nodelet.cpp)
+#target_link_libraries(laser_scan_splitter_nodelet laser_scan_splitter)
 
 #Create node
 add_executable(laser_scan_splitter_node src/laser_scan_splitter_node.cpp)
 target_link_libraries( laser_scan_splitter_node laser_scan_splitter )
 
 #Install library
-install(TARGETS laser_scan_splitter laser_scan_splitter_nodelet
+#install(TARGETS laser_scan_splitter laser_scan_splitter_nodelet
+install(TARGETS laser_scan_splitter
     ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
     LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
     RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION})
@@ -48,8 +49,8 @@ install(TARGETS laser_scan_splitter_node
     RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION} )
 
 #Install nodelet description
-install(FILES laser_scan_splitter_nodelet.xml
-    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION} )
+#install(FILES laser_scan_splitter_nodelet.xml
+#    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION} )
 
 #Install demo directory
 install(DIRECTORY demo

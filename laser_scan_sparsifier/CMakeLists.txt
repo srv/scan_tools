@@ -26,15 +26,16 @@ target_link_libraries( laser_scan_sparsifier ${catkin_LIBRARIES})
 add_dependencies(laser_scan_sparsifier ${catkin_EXPORTED_TARGETS})
 
 #Create nodelet
-add_library(laser_scan_sparsifier_nodelet src/laser_scan_sparsifier_nodelet.cpp)
-target_link_libraries(laser_scan_sparsifier_nodelet laser_scan_sparsifier)
+#add_library(laser_scan_sparsifier_nodelet src/laser_scan_sparsifier_nodelet.cpp)
+#target_link_libraries(laser_scan_sparsifier_nodelet laser_scan_sparsifier)
 
 #Create node
 add_executable(laser_scan_sparsifier_node src/laser_scan_sparsifier_node.cpp)
 target_link_libraries( laser_scan_sparsifier_node laser_scan_sparsifier )
 
 #Install library
-install(TARGETS laser_scan_sparsifier laser_scan_sparsifier_nodelet
+#install(TARGETS laser_scan_sparsifier laser_scan_sparsifier_nodelet
+install(TARGETS laser_scan_sparsifier
     ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
     LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
     RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION})
@@ -48,8 +49,8 @@ install(TARGETS laser_scan_sparsifier_node
     RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION} )
 
 #Install nodelet description
-install(FILES laser_scan_sparsifier_nodelet.xml
-    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION} )
+#install(FILES laser_scan_sparsifier_nodelet.xml
+#    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION} )
 
 #Install demo directory
 install(DIRECTORY demo

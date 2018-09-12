@@ -33,15 +33,16 @@ target_link_libraries( laser_ortho_projector ${catkin_LIBRARIES})
 add_dependencies(laser_ortho_projector ${catkin_EXPORTED_TARGETS})
 
 #Create nodelet
-add_library(laser_ortho_projector_nodelet src/laser_ortho_projector_nodelet.cpp)
-target_link_libraries(laser_ortho_projector_nodelet laser_ortho_projector)
+#add_library(laser_ortho_projector_nodelet src/laser_ortho_projector_nodelet.cpp)
+#target_link_libraries(laser_ortho_projector_nodelet laser_ortho_projector)
 
 #Create node
 add_executable(laser_ortho_projector_node src/laser_ortho_projector_node.cpp)
 target_link_libraries( laser_ortho_projector_node laser_ortho_projector )
 
 #Install library
-install(TARGETS laser_ortho_projector laser_ortho_projector_nodelet
+#install(TARGETS laser_ortho_projector laser_ortho_projector_nodelet
+install(TARGETS laser_ortho_projector
     ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
     LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
     RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION})
@@ -55,8 +56,8 @@ install(TARGETS laser_ortho_projector_node
     RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION} )
 
 #Install nodelet description
-install(FILES laser_ortho_projector_nodelet.xml
-    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION} )
+#install(FILES laser_ortho_projector_nodelet.xml
+#    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION} )
 
 #Install demo files
 install(DIRECTORY demo
