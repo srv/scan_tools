@@ -131,6 +131,7 @@ class LaserScanMatcher
 
     tf::Transform f2b_;    // fixed-to-base tf (pose of base frame in fixed frame)
     tf::Transform f2b_kf_; // pose of the last keyframe scan in fixed frame
+    tf::Transform prev_corr_ch_; // previous corrected change between keyframe and baseframe
 
     ros::Time last_icp_time_;
 

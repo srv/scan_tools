@@ -63,6 +63,8 @@ LaserScanMatcher::LaserScanMatcher(ros::NodeHandle nh, ros::NodeHandle nh_privat
   input_.laser[1] = 0.0;
   input_.laser[2] = 0.0;
 
+  prev_corr_ch_.setIdentity();
+
   // **** publishers
 
   if (publish_pose_)
@@ -486,10 +488,12 @@ void LaserScanMatcher::processScan(LDP& curr_ldp_scan, const ros::Time& time)
     twist_msg->header.stamp    = time;
     twist_msg->header.frame_id = base_frame_;
 
-    twist_msg->twist.linear.x = corr_ch.getOrigin().getX()/dt;
-    twist_msg->twist.linear.y = corr_ch.getOrigin().getY()/dt;
-    twist_msg->twist.angular.z = tf::getYaw(corr_ch.getRotation())/dt;
+    twist_msg->twist.linear.x = (prev_corr_ch_.inverse()*corr_ch).getOrigin().getX()/dt;
+    twist_msg->twist.linear.y = (prev_corr_ch_.inverse()*corr_ch).getOrigin().getY()/dt;
+    twist_msg->twist.angular.z = tf::getYaw((prev_corr_ch_.inverse()*corr_ch).getRotation())/dt;
     twist_publisher_.publish(twist_msg);
+
+    prev_corr_ch_ = corr_ch;
 
   }
   else
