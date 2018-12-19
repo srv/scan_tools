@@ -77,6 +77,9 @@ LaserScanMatcher::LaserScanMatcher(ros::NodeHandle nh, ros::NodeHandle nh_privat
       "pose_stamped", 5);
   }
 
+  twist_publisher_  = nh_.advertise<geometry_msgs::TwistStamped>(
+      "twist", 5);
+
   // *** subscribers
 
   if (use_cloud_input_)
@@ -475,6 +478,19 @@ void LaserScanMatcher::processScan(LDP& curr_ldp_scan, const ros::Time& time)
       tf::StampedTransform transform_msg (f2b_, time, fixed_frame_, base_frame_);
       tf_broadcaster_.sendTransform (transform_msg);
     }
+
+    // unstamped Pose2D message
+    geometry_msgs::TwistStamped::Ptr twist_msg;
+    twist_msg = boost::make_shared<geometry_msgs::TwistStamped>();
+
+    twist_msg->header.stamp    = time;
+    twist_msg->header.frame_id = base_frame_;
+
+    twist_msg->twist.linear.x = corr_ch.getOrigin().getX()/dt;
+    twist_msg->twist.linear.y = corr_ch.getOrigin().getY()/dt;
+    twist_msg->twist.angular.z = tf::getYaw(corr_ch.getRotation())/dt;
+    twist_publisher_.publish(twist_msg);
+
   }
   else
   {

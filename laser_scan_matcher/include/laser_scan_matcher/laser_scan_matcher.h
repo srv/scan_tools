@@ -91,6 +91,7 @@ class LaserScanMatcher
 
     ros::Publisher  pose_publisher_;
     ros::Publisher  pose_stamped_publisher_;
+    ros::Publisher  twist_publisher_;
 
     // **** parameters
 
