@@ -488,11 +488,13 @@ void LaserScanMatcher::processScan(LDP& curr_ldp_scan, const ros::Time& time)
     twist_msg->header.stamp    = time;
     twist_msg->header.frame_id = base_frame_;
 
-    twist_msg->twist.linear.x = (prev_corr_ch_.inverse()*corr_ch).getOrigin().getX()/dt;
-    twist_msg->twist.linear.y = (prev_corr_ch_.inverse()*corr_ch).getOrigin().getY()/dt;
-    twist_msg->twist.angular.z = tf::getYaw((prev_corr_ch_.inverse()*corr_ch).getRotation())/dt;
-    twist_publisher_.publish(twist_msg);
-
+    if (dt!=0)
+    {
+      twist_msg->twist.linear.x = (prev_corr_ch_.inverse()*corr_ch).getOrigin().getX()/dt;
+      twist_msg->twist.linear.y = (prev_corr_ch_.inverse()*corr_ch).getOrigin().getY()/dt;
+      twist_msg->twist.angular.z = tf::getYaw((prev_corr_ch_.inverse()*corr_ch).getRotation())/dt;
+      twist_publisher_.publish(twist_msg);
+    }
     prev_corr_ch_ = corr_ch;
 
   }
